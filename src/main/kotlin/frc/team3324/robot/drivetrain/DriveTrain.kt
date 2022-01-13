@@ -1,0 +1,229 @@
+package frc.team3324.robot.drivetrain
+
+import com.kauailabs.navx.frc.AHRS
+import com.revrobotics.CANSparkMax
+import com.revrobotics.CANSparkMaxLowLevel
+import edu.wpi.first.wpilibj.*
+import edu.wpi.first.wpilibj.controller.PIDController
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive
+import edu.wpi.first.wpilibj.geometry.Pose2d
+import edu.wpi.first.wpilibj.geometry.Rotation2d
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj2.command.SubsystemBase
+import frc.team3324.robot.Robot
+
+import frc.team3324.robot.util.Consts
+import io.github.oblarg.oblog.Loggable
+import io.github.oblarg.oblog.annotations.Log
+
+class DriveTrain: SubsystemBase(), Loggable {
+    val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
+    var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
+
+    var shifterStatus: DoubleSolenoid.Value
+        get() = gearShifter.get()
+        set(status) {
+            gearShifter.set(status)
+        }
+    var shifterCount = 0
+
+    val leftEncoderSpeed: Double
+        @Log
+        get() = leftEncoder.velocity * (1 / 60.0) * activeConversionRatio
+
+    val leftEncoderPosition: Double
+        @Log
+        get() = leftEncoder.position * activeConversionRatio
+
+    val rightEncoderSpeed: Double
+        @Log
+        get() = rightEncoder.velocity * (1 / 60.0) * activeConversionRatio
+
+    val rightEncoderPosition: Double
+        @Log
+        get() = rightEncoder.position * activeConversionRatio
+
+    val velocity: Double
+        @Log
+        get() = (rightEncoderSpeed - leftEncoderSpeed) / 2.0
+
+    val position: Double
+        @Log
+        get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
+
+    val yaw: Double
+        @Log
+        get() = -gyro.yaw.toDouble()
+
+    val fusedYaw: Double
+        @Log
+        get() = -gyro.fusedHeading.toDouble()
+
+
+    val lmCurrent: Double
+        @Log
+        get() = lmMotor.outputCurrent
+    val luCurrent: Double
+        @Log
+        get() = luMotor.outputCurrent
+    val ldCurrent: Double
+        @Log
+        get() = ldMotor.outputCurrent
+
+    val rmCurrent: Double
+        @Log
+        get() = rmMotor.outputCurrent
+    val ruCurrent: Double
+        @Log
+        get() = ruMotor.outputCurrent
+    val rdCurrent: Double
+        @Log
+        get() = rdMotor.outputCurrent
+
+    val pose: Pose2d
+        get() = diffDriveOdometry.poseMeters
+
+    val wheelSpeeds: DifferentialDriveWheelSpeeds
+        get() = DifferentialDriveWheelSpeeds(leftEncoderSpeed, rightEncoderSpeed)
+
+    val autoWheelSpeeds: DifferentialDriveWheelSpeeds
+        get() = DifferentialDriveWheelSpeeds(leftEncoderSpeed, -rightEncoderSpeed)
+
+    val leftPIDController = PIDController(2.95, 0.0, 0.0)
+    val rightPIDController = PIDController(2.95, 0.0, 0.0)
+
+
+    private val gyro = AHRS(SPI.Port.kMXP)
+
+    private val lmMotor = CANSparkMax(Consts.DriveTrain.LM_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val luMotor = CANSparkMax(Consts.DriveTrain.LU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val ldMotor = CANSparkMax(Consts.DriveTrain.LD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+
+    private val rmMotor = CANSparkMax(Consts.DriveTrain.RM_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val ruMotor = CANSparkMax(Consts.DriveTrain.RU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val rdMotor = CANSparkMax(Consts.DriveTrain.RD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+
+    private val rightEncoder = rmMotor.encoder
+    private val leftEncoder = lmMotor.encoder
+
+    var safety: Boolean
+        get() = drive.isSafetyEnabled
+        set(bool) = drive.setSafetyEnabled(bool)
+
+    private val drive = DifferentialDrive(rmMotor, lmMotor)
+
+    val diffDriveOdometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(-gyro.yaw.toDouble()))
+
+    var enabled = true
+
+    fun setBrakeMode() {
+        rmMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        ruMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        rdMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        lmMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        luMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        ldMotor.idleMode = CANSparkMax.IdleMode.kBrake
+    }
+
+    init {
+        lmMotor.openLoopRampRate = 2.0
+        rmMotor.openLoopRampRate = 2.0
+
+        shifterStatus = Consts.DriveTrain.LOW_GEAR
+        lmMotor.restoreFactoryDefaults()
+        luMotor.restoreFactoryDefaults()
+        ldMotor.restoreFactoryDefaults()
+
+        rmMotor.restoreFactoryDefaults()
+        ruMotor.restoreFactoryDefaults()
+        rdMotor.restoreFactoryDefaults()
+
+        rightEncoder.position = 0.0
+        leftEncoder.position = 0.0
+
+        rmMotor.setSmartCurrentLimit(40)
+        lmMotor.setSmartCurrentLimit(40)
+        rmMotor.setSecondaryCurrentLimit(40.0)
+        lmMotor.setSecondaryCurrentLimit(40.0)
+
+        ruMotor.follow(rmMotor, false)
+        rdMotor.follow(rmMotor, false)
+
+        luMotor.follow(lmMotor)
+        ldMotor.follow(lmMotor)
+        setBrakeMode()
+
+        ruMotor.burnFlash()
+        rmMotor.burnFlash()
+        rdMotor.burnFlash()
+
+        lmMotor.burnFlash()
+        luMotor.burnFlash()
+        ldMotor.burnFlash()
+
+        drive.isSafetyEnabled = true
+    }
+
+    fun resetGyro() {
+        gyro.reset()
+    }
+
+    fun resetOdometry(newPose: Pose2d) {
+        diffDriveOdometry.resetPosition(newPose, Rotation2d(gyro.yaw.toDouble()))
+    }
+
+    fun resetEncoders() {
+        rightEncoder.position = 0.0
+        leftEncoder.position = 0.0
+    }
+
+    override fun periodic() {
+        diffDriveOdometry.update(Rotation2d.fromDegrees(-gyro.yaw.toDouble()), leftEncoderPosition, -rightEncoderPosition)
+        SmartDashboard.putString("Drivetrain Pose", pose.toString())
+        SmartDashboard.putNumber("Gyro Yaw", gyro.yaw.toDouble())
+
+        shifterCount += 1
+
+        val currentVelocity = velocity
+        if (Math.abs(currentVelocity) > 1.54) {
+            shifterStatus = Consts.DriveTrain.HIGH_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
+        }
+        if (Math.abs(currentVelocity) < 1.54) {
+            shifterStatus = Consts.DriveTrain.LOW_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
+        }
+    }
+
+    fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
+        drive.curvatureDrive(xSpeed, ySpeed, quickTurn)
+    }
+
+    fun curvatureDrive(xSpeed: Double, ySpeed: Double) {
+        if (xSpeed < 0.0025) {
+            curvatureDrive(xSpeed, -ySpeed * 0.35, true)
+        } else {
+            curvatureDrive(xSpeed, -ySpeed * 0.7, false)
+        }
+    }
+
+
+    fun setCoastMode() {
+        rmMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        lmMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        ruMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        luMotor.idleMode = CANSparkMax.IdleMode.kCoast
+
+    }
+
+    fun tankDriveVolts(leftVolts: Double, rightVolts: Double) {
+        drive.feed()
+        lmMotor.setVoltage(leftVolts)
+        rmMotor.setVoltage(-rightVolts)
+    }
+}
