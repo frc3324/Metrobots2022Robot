@@ -21,13 +21,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import frc.team3324.library.commands.MotorCommand;
-// import frc.team3324.robot.drivetrain.DriveTrain;
+import frc.team3324.robot.drivetrain.DriveTrain;
 // import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 // import frc.team3324.library.subsystems.MotorSubsystem;
 // import frc.team3324.robot.drivetrain.commands.teleop.GyroTurn;
 // import frc.team3324.robot.util.*;
 // import io.github.oblarg.oblog.Logger;
-import frc.team3324.robot.drivetrain.DriveTrain;
+import frc.team3324.robot.commands.*;
 
 class RobotContainer {
     // TODO: make drivetrain class
@@ -58,13 +58,15 @@ class RobotContainer {
         GalacticA,
         GalacticB
     }
-
+    
     public RobotContainer() {
-       Robot.light.set(true);
-       //Logger.configureLoggingAndConfig(this, true);
-       driveTrain.defaultCommand = Drive();
-       driveTrain.setDefaultCommand(driveTrain, {primaryController.getY(GenericHID.Hand.kLeft)}, {primaryController.getX(GenericHID.Hand.kRight)});
-
+        Robot.light.set(true);
+        //Logger.configureLoggingAndConfig(this, true);
+        // TODO: Find out why defaultCommand and Drive() are bad (probably an easy fix I'm just dumb lol)
+        driveTrain.defaultCommand = Drive();
+        // ? It does not like the hand enum for some reason and I cannot figure out why
+        driveTrain.setDefaultCommand(driveTrain, primaryController.getY(GenericHID.Hand.kLeft), primaryController.getX(GenericHID.Hand.kRight));
+        
        SmartDashboard.putData(autoChooser);
 
        configureButtonBindings();
