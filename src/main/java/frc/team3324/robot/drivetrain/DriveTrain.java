@@ -46,8 +46,8 @@ public class DriveTrain extends SubsystemBase {
     private CANSparkMax rdMotor = new CANSparkMax(Consts.DriveTrain.RD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     // We can cast to MetroSparkMAX because we know that the drivetrain motors are spark maxes (see declaration above)
-    private RelativeEncoder rightEncoder = ((MetroSparkMAX) rmMotor).getEncoder();
-    private RelativeEncoder leftEncoder = ((MetroSparkMAX) lmMotor).getEncoder();
+    private RelativeEncoder rightEncoder = rmMotor.getEncoder();
+    private RelativeEncoder leftEncoder = lmMotor.getEncoder();
 
     private DifferentialDrive drive = new DifferentialDrive(rmMotor, lmMotor);
 
@@ -62,9 +62,9 @@ public class DriveTrain extends SubsystemBase {
         return gearShifter.get();
     }
 
-    public void setShifterStatus(DoubleSolenoid.Value status) {
-        gearShifter.set(status);
-    }
+    // public void setShifterStatus(DoubleSolenoid.Value status) {
+    //     gearShifter.set(status);
+    // }
 
     int shifterCount = 0;
 
@@ -75,7 +75,7 @@ public class DriveTrain extends SubsystemBase {
         lmMotor.setOpenLoopRampRate(2.0);
         rmMotor.setOpenLoopRampRate(2.0);
 
-        setShifterStatus(Consts.DriveTrain.LOW_GEAR);
+        //setShifterStatus(Consts.DriveTrain.LOW_GEAR);
         lmMotor.restoreFactoryDefaults();
         luMotor.restoreFactoryDefaults();
         ldMotor.restoreFactoryDefaults();
@@ -208,11 +208,11 @@ public class DriveTrain extends SubsystemBase {
         double currentVelocity = getVelocity();
 
         if (Math.abs(currentVelocity) > 1.54) {
-            setShifterStatus(Consts.DriveTrain.HIGH_GEAR);
+            // setShifterStatus(Consts.DriveTrain.HIGH_GEAR);
             activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH;
         }
         if (Math.abs(currentVelocity) < 1.54) {
-            setShifterStatus(Consts.DriveTrain.LOW_GEAR);
+            // setShifterStatus(Consts.DriveTrain.LOW_GEAR);
             activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW;
         }
     }
