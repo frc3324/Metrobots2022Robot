@@ -30,6 +30,7 @@ public class DriveTrain extends SubsystemBase {
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
+    // Motor Objects
     private CANSparkMax lmMotor = new CANSparkMax(Consts.DriveTrain.LM_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax luMotor = new CANSparkMax(Consts.DriveTrain.LU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax ldMotor = new CANSparkMax(Consts.DriveTrain.LD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -38,7 +39,6 @@ public class DriveTrain extends SubsystemBase {
     private CANSparkMax ruMotor = new CANSparkMax(Consts.DriveTrain.RU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax rdMotor = new CANSparkMax(Consts.DriveTrain.RD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    // We can cast to MetroSparkMAX because we know that the drivetrain motors are spark maxes (see declaration above)
     private RelativeEncoder rightEncoder = rmMotor.getEncoder();
     private RelativeEncoder leftEncoder = lmMotor.getEncoder();
 
@@ -46,20 +46,7 @@ public class DriveTrain extends SubsystemBase {
 
     private DifferentialDriveOdometry diffDriveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * gyro.getYaw()));
 
-    boolean enabled = true;
-
-    DoubleSolenoid gearShifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE);
     double activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW;
-
-    public DoubleSolenoid.Value getShifterStatus() { 
-        return gearShifter.get();
-    }
-
-    public void setShifterStatus(DoubleSolenoid.Value status) {
-        gearShifter.set(status);
-    }
-
-    int shifterCount = 0;
 
     /*
      * CONSTRUCTOR
@@ -68,7 +55,6 @@ public class DriveTrain extends SubsystemBase {
         lmMotor.setOpenLoopRampRate(2.0);
         rmMotor.setOpenLoopRampRate(2.0);
 
-        //setShifterStatus(Consts.DriveTrain.LOW_GEAR);
         lmMotor.restoreFactoryDefaults();
         luMotor.restoreFactoryDefaults();
         ldMotor.restoreFactoryDefaults();
@@ -196,18 +182,7 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putString("Drivetrain Pose", getPose().toString());
         SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
 
-        shifterCount += 1;
-
         double currentVelocity = getVelocity();
-
-        if (Math.abs(currentVelocity) > 1.54) {
-            // setShifterStatus(Consts.DriveTrain.HIGH_GEAR);
-            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH;
-        }
-        if (Math.abs(currentVelocity) < 1.54) {
-            // setShifterStatus(Consts.DriveTrain.LOW_GEAR);
-            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW;
-        }
     }
 
     private void curvatureDrive(double xSpeed, double ySpeed, boolean quickTurn) {
