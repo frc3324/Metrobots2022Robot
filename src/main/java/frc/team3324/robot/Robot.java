@@ -3,7 +3,7 @@ package frc.team3324.robot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.*;
-//import io.github.oblarg.oblog.Logger;
+import io.github.oblarg.oblog.Logger;
 
 public class Robot extends TimedRobot {
 
@@ -23,14 +23,13 @@ public class Robot extends TimedRobot {
     @Override 
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        //Logger.updateEntries();
-        //Logger.updateEntries();
+        Logger.updateEntries();
+        Logger.updateEntries();
     }
 
     @Override 
     public void teleopInit() {
-        robotContainer.driveTrain.resetEncoders();;
-        //robotContainer.driveTrain.resetOdometry(TrajectoriesObject.TestLine.trajectory.initialPose);
+        robotContainer.driveTrain.resetEncoders();
     }
 
     @Override 
