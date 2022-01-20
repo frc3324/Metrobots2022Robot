@@ -17,6 +17,14 @@ public class Drive extends CommandBase {
         this.ySpeedSupplier = ySpeed;
     }
 
+    private static double sign(double speed) {
+        if (speed >= 0) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
     @Override
     public void execute() {
         double xSpeed = -1.0 * xSpeedSupplier.getAsDouble();
@@ -27,15 +35,8 @@ public class Drive extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        // We never want the robot to stop driving during a match, so drive is never finished
+        return false; 
     }
 
-    public double sign(double speed) {
-        if (speed >= 0) {
-            return 1;
-        }
-        else {
-            return -1;
-        }
-    }
 }
