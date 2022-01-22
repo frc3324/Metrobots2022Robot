@@ -11,12 +11,13 @@ import frc.team3324.library.motorcontrollers.SmartMotorController;
 public final class Consts {
     public static class DriveTrain {
         // Motor ports
-        public static final int LM_MOTOR = 1;
-        public static final int LU_MOTOR = 2;
-        public static final int LD_MOTOR = 3;
-        public static final int RM_MOTOR = 4;
-        public static final int RU_MOTOR = 5;
-        public static final int RD_MOTOR = 6;
+        public static final int L_MIDDLE_MOTOR = 1;
+        public static final int L_FRONT_MOTOR = 2;
+        public static final int L_BACK_MOTOR = 3;
+
+        public static final int R_MIDDLE_MOTOR = 4;
+        public static final int R_FRONT_MOTOR = 5;
+        public static final int R_BACK_MOTOR = 6;
 
         // Encoder and Auto constants
         public static final double HIGH_GEAR_RATIO = 1.0 / (108800 / 12000);
