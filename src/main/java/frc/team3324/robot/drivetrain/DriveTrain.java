@@ -31,13 +31,13 @@ public class DriveTrain extends SubsystemBase {
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     // Motor Objects
-    private CANSparkMax lmMotor = new CANSparkMax(Consts.DriveTrain.LM_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax luMotor = new CANSparkMax(Consts.DriveTrain.LU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax ldMotor = new CANSparkMax(Consts.DriveTrain.LD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax lmMotor = new CANSparkMax(Consts.DriveTrain.L_MIDDLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax luMotor = new CANSparkMax(Consts.DriveTrain.L_FRONT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax ldMotor = new CANSparkMax(Consts.DriveTrain.L_BACK_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    private CANSparkMax rmMotor = new CANSparkMax(Consts.DriveTrain.RM_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax ruMotor = new CANSparkMax(Consts.DriveTrain.RU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax rdMotor = new CANSparkMax(Consts.DriveTrain.RD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax rmMotor = new CANSparkMax(Consts.DriveTrain.R_MIDDLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax ruMotor = new CANSparkMax(Consts.DriveTrain.R_FRONT_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax rdMotor = new CANSparkMax(Consts.DriveTrain.R_BACK_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     private RelativeEncoder rightEncoder = rmMotor.getEncoder();
     private RelativeEncoder leftEncoder = lmMotor.getEncoder();
