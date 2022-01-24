@@ -49,19 +49,22 @@ class GripPipelineRed:
         # Step HSV_Threshold0:
         self.__hsv_threshold_input = source0
         (self.hsv_threshold_output) = self.__hsv_threshold(self.__hsv_threshold_input, self.__hsv_threshold_hue, self.__hsv_threshold_saturation, self.__hsv_threshold_value)
+        cv2.imshow("Treshold image", self.hsv_threshold_output)
 
         # Step CV_dilate0:
         self.__cv_dilate_src = self.hsv_threshold_output
         (self.cv_dilate_output) = self.__cv_dilate(self.__cv_dilate_src, self.__cv_dilate_kernel, self.__cv_dilate_anchor, self.__cv_dilate_iterations, self.__cv_dilate_bordertype, self.__cv_dilate_bordervalue)
+        cv2.imshow("Dilate image",self.cv_dilate_output)
 
         # Step CV_erode0:
         self.__cv_erode_src = self.cv_dilate_output
         (self.cv_erode_output) = self.__cv_erode(self.__cv_erode_src, self.__cv_erode_kernel, self.__cv_erode_anchor, self.__cv_erode_iterations, self.__cv_erode_bordertype, self.__cv_erode_bordervalue)
+        cv2.imshow("Erode image", self.cv_erode_output)
 
         # Step Find_Contours0:
         self.__find_contours_input = self.cv_erode_output
         (self.find_contours_output) = self.__find_contours(self.__find_contours_input, self.__find_contours_external_only)
-
+        return self.find_contours_output
 
     @staticmethod
     def __hsv_threshold(input, hue, sat, val):
@@ -121,8 +124,17 @@ class GripPipelineRed:
         else:
             mode = cv2.RETR_LIST
         method = cv2.CHAIN_APPROX_SIMPLE
-        im2, contours, hierarchy =cv2.findContours(input, mode=mode, method=method)
+        contours, hierarchy =cv2.findContours(input, mode=mode, method=method)
         return contours
 
+if __name__ == "__main__":
+    while True:
+        gplr = GripPipelineRed()
+        video = cv2.VideoCapture(0)
+        redval, redimg = video.read()
 
-
+        contours = gplr.process(redimg) 
+        cv2.drawContours(redimg, contours, -1, 0xFF0000)
+        cv2.imshow("Source image", redimg)
+        #cv2.imshow("Contours", contours)
+        cv2.waitKey(5)
