@@ -2,7 +2,6 @@ package frc.team3324.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
-import frc.team3324.library.commands.MotorCommand;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import io.github.oblarg.oblog.Logger;
@@ -33,7 +32,6 @@ class RobotContainer {
         Logger.configureLoggingAndConfig(this, true);
 
        configureButtonBindings();
-
    }
 
     private void configureButtonBindings() {

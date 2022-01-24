@@ -55,6 +55,7 @@ public class DriveTrain extends SubsystemBase {
         lmMotor.setOpenLoopRampRate(2.0);
         rmMotor.setOpenLoopRampRate(2.0);
 
+        // Initialize DT Motors
         lmMotor.restoreFactoryDefaults();
         luMotor.restoreFactoryDefaults();
         ldMotor.restoreFactoryDefaults();
@@ -66,16 +67,19 @@ public class DriveTrain extends SubsystemBase {
         rightEncoder.setPosition(0.0);
         leftEncoder.setPosition(0.0);
 
+        // Current Limits
         rmMotor.setSmartCurrentLimit(40);
         lmMotor.setSmartCurrentLimit(40);
         rmMotor.setSecondaryCurrentLimit(40.0);
         lmMotor.setSecondaryCurrentLimit(40.0);
 
+        // Set followers
         ruMotor.follow(rmMotor, false);
         rdMotor.follow(rmMotor, false);
 
         luMotor.follow(lmMotor);
         ldMotor.follow(lmMotor);
+
         setBrakeMode();
 
         ruMotor.burnFlash();
@@ -190,11 +194,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void curvatureDrive(double xSpeed, double ySpeed) {
-        if (xSpeed < 0.0025) {
-            curvatureDrive(xSpeed, -ySpeed * 0.35, true);
-        } else {
-            curvatureDrive(xSpeed, -ySpeed * 0.7, false);
-        }
+        curvatureDrive(xSpeed, -1.0 * ySpeed, true);
     }
 
 
