@@ -2,6 +2,7 @@ package frc.team3324.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import io.github.oblarg.oblog.Logger;
@@ -41,5 +42,10 @@ class RobotContainer {
 
     private void rumbleController(double rumbleLevel) {
         secondaryController.setRumble(GenericHID.RumbleType.kRightRumble, rumbleLevel);
+    }
+
+    private void printControllerInputs() {
+        SmartDashboard.putNumber("Primary Right X", primaryController.getRightX());
+        SmartDashboard.putNumber("Primary Left Y", primaryController.getLeftY());
     }
 }

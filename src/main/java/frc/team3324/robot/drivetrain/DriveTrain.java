@@ -52,8 +52,6 @@ public class DriveTrain extends SubsystemBase {
      * CONSTRUCTOR
      */
     public DriveTrain() {
-        lmMotor.setOpenLoopRampRate(2.0);
-        rmMotor.setOpenLoopRampRate(2.0);
 
         // Initialize DT Motors
         lmMotor.restoreFactoryDefaults();
@@ -66,6 +64,9 @@ public class DriveTrain extends SubsystemBase {
 
         rightEncoder.setPosition(0.0);
         leftEncoder.setPosition(0.0);
+
+        lmMotor.setOpenLoopRampRate(0.5);
+        rmMotor.setOpenLoopRampRate(0.5);
 
         // Current Limits
         rmMotor.setSmartCurrentLimit(40);
