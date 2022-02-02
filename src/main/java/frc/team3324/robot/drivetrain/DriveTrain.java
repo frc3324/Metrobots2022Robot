@@ -25,9 +25,11 @@ public class DriveTrain extends SubsystemBase {
     /* 
      * INSTANCE VARIABLES
      */
+    // old values for PID are below, delete the new ones if they end up causing issues
     PIDController leftPIDController = new PIDController(2.95, 0.0, 0.0);
     PIDController rightPIDController = new PIDController(2.95, 0.0, 0.0);
-
+    // PIDController leftPIDController = new PIDController(0.00521, 0.000012, 0);
+    // PIDController rightPIDController = new PIDController(0.00521, 0.000012, 0); 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     // Motor Objects
@@ -65,8 +67,8 @@ public class DriveTrain extends SubsystemBase {
         rightEncoder.setPosition(0.0);
         leftEncoder.setPosition(0.0);
 
-        lmMotor.setOpenLoopRampRate(0.5);
-        rmMotor.setOpenLoopRampRate(0.5);
+        lmMotor.setOpenLoopRampRate(0.25);
+        rmMotor.setOpenLoopRampRate(0.25);
 
         // Current Limits
         rmMotor.setSmartCurrentLimit(40);
@@ -97,6 +99,10 @@ public class DriveTrain extends SubsystemBase {
     /*
      * GETTERS/SETTERS
      */
+
+    public AHRS getGyro() {
+        return this.gyro;
+    }
 
     @Log
     public double getLeftEncoderSpeed() {

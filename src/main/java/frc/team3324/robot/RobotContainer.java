@@ -2,9 +2,12 @@ package frc.team3324.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
+import frc.team3324.robot.drivetrain.commands.GyroTurnDiscrete;
 import io.github.oblarg.oblog.Logger;
 
 class RobotContainer {
@@ -32,12 +35,16 @@ class RobotContainer {
         Robot.light.set(true); // turn on robot light
         Logger.configureLoggingAndConfig(this, true);
 
-       configureButtonBindings();
+        configureButtonBindings();
    }
 
     private void configureButtonBindings() {
         // Start accepting input from controller for drivetrain
         driveTrain.setDefaultCommand(new Drive(driveTrain, primaryController::getRightX, primaryController::getLeftY));
+
+        // X: Turn robot 5 degrees
+
+        new JoystickButton(primaryController, Button.kY.value).toggleWhenPressed(new GyroTurnDiscrete(driveTrain, driveTrain.getGyro(), 90.0));
     }
 
     private void rumbleController(double rumbleLevel) {
