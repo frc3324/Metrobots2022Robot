@@ -43,8 +43,7 @@ class RobotContainer {
         driveTrain.setDefaultCommand(new Drive(driveTrain, primaryController::getRightX, primaryController::getLeftY));
 
         // X: Turn robot 5 degrees
-
-        new JoystickButton(primaryController, Button.kY.value).toggleWhenPressed(new GyroTurnDiscrete(driveTrain, driveTrain.getGyro(), 90.0));
+        new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(driveTrain, driveTrain.getGyro(), 90.0));
     }
 
     private void rumbleController(double rumbleLevel) {

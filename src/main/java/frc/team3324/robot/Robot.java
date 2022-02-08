@@ -47,9 +47,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("GyroTurn I", 0.00001);
         SmartDashboard.putNumber("GyroTurn D", 0.0);
 
-        SmartDashboard.putNumber("ANGLE TO TURN TO", 90.0);
-
-
         robotContainer.driveTrain.resetEncoders();
     }
 
