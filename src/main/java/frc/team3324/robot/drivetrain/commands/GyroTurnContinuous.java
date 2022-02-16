@@ -1,32 +1,31 @@
 package frc.team3324.robot.drivetrain.commands;
 
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.drivetrain.DriveTrain;
 
-import io.github.oblarg.oblog.annotations.Log;
-
-public class GyroTurnDiscrete extends CommandBase {
+public class GyroTurnContinuous extends CommandBase {
   AHRS gyro;
   DriveTrain driveTrain;
 
   double goal; // total angle to turn to
-  double angle; // relative angle to turn to, passed in
+  DoubleSupplier angleSupplier; // supplier for relative angle
 
   PIDController controller;
   double kP;
   double kI;
   double kD;
 
-  public GyroTurnDiscrete(DriveTrain driveTrain, AHRS gyro, double kP, double kI, double kD, double angle) {
+  public GyroTurnContinuous(DriveTrain driveTrain, AHRS gyro, double kP, double kI, double kD, DoubleSupplier angleSupplier) {
     addRequirements(driveTrain);
 
     this.gyro = gyro;
     this.driveTrain = driveTrain;
-    this.angle = angle;
+    this.angleSupplier = angleSupplier;
 
     this.kP = kP;
     this.kI = kI;
@@ -35,14 +34,14 @@ public class GyroTurnDiscrete extends CommandBase {
 
   @Override
   public void initialize() {
-    this.goal = gyro.getAngle() + angle;
-
-    controller = new PIDController(kP, kI, kD); // :eyes:
+    controller = new PIDController(kP, kI, kD);
     controller.setTolerance(1.0);
   }
 
   @Override
   public void execute() {
+    this.goal = gyro.getAngle() + angleSupplier.getAsDouble();
+
     double speed = controller.calculate(gyro.getAngle(), goal);
 
     driveTrain.curvatureDrive(speed, 0.0);

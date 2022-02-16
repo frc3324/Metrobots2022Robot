@@ -29,7 +29,6 @@ public class Robot extends TimedRobot {
     @Override 
     public void robotInit() {
         LiveWindow.disableAllTelemetry();
-
     }
 
     @Override 
@@ -42,10 +41,6 @@ public class Robot extends TimedRobot {
     @Override 
     public void teleopInit() {
         enabledInit();
-
-        SmartDashboard.putNumber("GyroTurn P", 0.0061253324);
-        SmartDashboard.putNumber("GyroTurn I", 0.00001);
-        SmartDashboard.putNumber("GyroTurn D", 0.0);
 
         robotContainer.driveTrain.resetEncoders();
     }

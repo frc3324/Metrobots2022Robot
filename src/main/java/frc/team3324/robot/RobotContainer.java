@@ -8,10 +8,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.drivetrain.commands.GyroTurnDiscrete;
+import frc.team3324.robot.intake.subsystem.Intake;
+import frc.team3324.robot.intake.SuckIn;
+import frc.team3324.robot.shooter.RunShoot;
+import frc.team3324.robot.shooter.subsystem.Shoot;
+import frc.team3324.robot.util.Consts;
 import io.github.oblarg.oblog.Logger;
 
 class RobotContainer {
     public DriveTrain driveTrain = new DriveTrain();
+    //public Shoot shooter = new Shoot();
+    // public Intake intake = new Intake();
 
     private NetworkTableInstance table = NetworkTableInstance.getDefault();
 
@@ -43,7 +50,17 @@ class RobotContainer {
         driveTrain.setDefaultCommand(new Drive(driveTrain, primaryController::getRightX, primaryController::getLeftY));
 
         // X: Turn robot 5 degrees
-        new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(driveTrain, driveTrain.getGyro(), 90.0));
+        new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(
+            driveTrain, 
+            driveTrain.getGyro(),
+            Consts.DriveTrain.GyroTurn_P,
+            Consts.DriveTrain.GyroTurn_I,
+            Consts.DriveTrain.GyroTurn_D,
+            90.0)
+            );
+        
+        //shooter.setDefaultCommand(new RunShoot(shooter, secondaryController));
+        //intake.setDefaultCommand(new SuckIn(intake, secondaryController));
     }
 
     private void rumbleController(double rumbleLevel) {
