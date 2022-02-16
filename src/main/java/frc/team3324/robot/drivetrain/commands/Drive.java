@@ -10,32 +10,37 @@ public class Drive extends CommandBase {
     DoubleSupplier xSpeedSupplier; 
     DoubleSupplier ySpeedSupplier;
 
-    public Drive(DriveTrain driveTrain, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
+    public Drive(DriveTrain driveTrain, DoubleSupplier xSpeedSupplier, DoubleSupplier ySpeedSupplier) {
         addRequirements(driveTrain);
         this.driveTrain = driveTrain;
-        this.xSpeedSupplier = xSpeed;
-        this.ySpeedSupplier = ySpeed;
+        this.xSpeedSupplier = xSpeedSupplier;
+        this.ySpeedSupplier = ySpeedSupplier;
+    }
+
+    private static double sign(double speed) {
+        if (speed >= 0) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    public static double signedSquare(double number)  {
+        return number * number * sign(number);
     }
 
     @Override
     public void execute() {
-        double xSpeed = -1.0 * xSpeedSupplier.getAsDouble();
+        double xSpeed = xSpeedSupplier.getAsDouble();
         double ySpeed = ySpeedSupplier.getAsDouble();
 
-        driveTrain.curvatureDrive(xSpeed * xSpeed * sign(xSpeed), ySpeed + (sign(ySpeed) * 0.01));
+        driveTrain.curvatureDrive(xSpeed, ySpeed);
     }
 
     @Override
     public boolean isFinished() {
+        // We never want the robot to stop driving during a match, so drive is never finished
         return false;
     }
 
-    public double sign(double speed) {
-        if (speed >= 0) {
-            return 1;
-        }
-        else {
-            return -1;
-        }
-    }
 }
