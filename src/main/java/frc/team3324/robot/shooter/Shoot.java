@@ -2,34 +2,38 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.team3324.robot.intake.subsystem;
+package frc.team3324.robot.shooter;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3324.library.motorcontrollers.MetroSparkMAX;
+//import frc.team3324.robot.util.Consts;
 
-public class Intake extends SubsystemBase {
-  /** Creates a new Intake. */
+public class Shoot extends SubsystemBase {
+  /** Creates a new Shoot. */
 
-  MetroSparkMAX leftMotor = new MetroSparkMAX(9, MotorType.kBrushless, 30);
-  MetroSparkMAX rightMotor = new MetroSparkMAX(10, MotorType.kBrushless, 30);
+  MetroSparkMAX rightMotor = new MetroSparkMAX(10, MotorType.kBrushless, 40);
+  MetroSparkMAX leftMotor = new MetroSparkMAX(11, MotorType.kBrushless, 40);
+  MetroSparkMAX flyWheel = new MetroSparkMAX(13, MotorType.kBrushless, 40);
 
   public void moveMotor() {
     double speed = 0.7;
 
-    leftMotor.set(speed);
     rightMotor.set(speed);
+    leftMotor.set(speed);
+    flyWheel.set(speed);
   }
 
   public void stopMotor() {
-    double speed = 0;
+    double stop = 0;
 
-    leftMotor.set(speed);
-    rightMotor.set(speed);
+    rightMotor.set(stop);
+    leftMotor.set(stop);
+    flyWheel.set(stop);
   }
 
-  public Intake() {}
+  public Shoot() {}
 
   @Override
   public void periodic() {

@@ -8,10 +8,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.drivetrain.commands.GyroTurnDiscrete;
-import frc.team3324.robot.intake.subsystem.Intake;
-import frc.team3324.robot.intake.SuckIn;
-import frc.team3324.robot.shooter.RunShoot;
-import frc.team3324.robot.shooter.subsystem.Shoot;
+import frc.team3324.robot.shooter.commands.RunShoot;
+import frc.team3324.robot.intake.Intake;
+import frc.team3324.robot.intake.commands.SuckIn;
 import frc.team3324.robot.util.Consts;
 import io.github.oblarg.oblog.Logger;
 
