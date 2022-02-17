@@ -2,20 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.team3324.robot.intake;
+package frc.team3324.robot.shooter.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.team3324.robot.intake.subsystem.Intake;
+import frc.team3324.robot.shooter.Shoot;
 
 
-public class SuckIn extends CommandBase {
-  Intake intake;
+public class RunShoot extends CommandBase {
+  /** Creates a new shoot2. */
+  Shoot shooter;
   XboxController controller;
-
-  /** Creates a new GoClimp. */
-  public SuckIn(Intake intake, XboxController controller) {
+  
+  public RunShoot(Shoot shoot, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
+    
   }
 
   // Called when the command is initially scheduled.
@@ -27,17 +28,17 @@ public class SuckIn extends CommandBase {
   public void execute() {
     double trigger = controller.getRightTriggerAxis();
     if (trigger > 0) {
-      intake.moveMotor();
+      shooter.moveMotor();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.stopMotor();
+    shooter.stopMotor();
   }
 
-  // Returns true when the command should end
+  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
