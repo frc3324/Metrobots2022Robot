@@ -11,13 +11,13 @@ import frc.team3324.library.motorcontrollers.SmartMotorController;
 public final class Consts {
     public static class DriveTrain {
         // Motor ports
-        public static final int L_MIDDLE_MOTOR = 1;
-        public static final int L_FRONT_MOTOR = 2;
-        public static final int L_BACK_MOTOR = 3;
+        public static final int L_MIDDLE_MOTOR = 12;
+        public static final int L_FRONT_MOTOR = 3;
+        public static final int L_BACK_MOTOR = 2;
 
-        public static final int R_MIDDLE_MOTOR = 4;
-        public static final int R_FRONT_MOTOR = 5;
-        public static final int R_BACK_MOTOR = 6;
+        public static final int R_MIDDLE_MOTOR = 5;
+        public static final int R_FRONT_MOTOR = 6;
+        public static final int R_BACK_MOTOR = 9;
 
         // Encoder and Auto constants
         public static final double HIGH_GEAR_RATIO = 1.0 / (108800 / 12000);
@@ -41,52 +41,29 @@ public final class Consts {
     }
 
     public static class Shooter {
-        SmartMotorController LEFT_MOTOR = new MetroSparkMAX(11, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-        SmartMotorController RIGHT_MOTOR = new MetroSparkMAX(10, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-        SmartMotorController FLY_WHEEL = new MetroSparkMAX(13, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController LEFT_MOTOR = new MetroSparkMAX(21, CANSparkMaxLowLevel.MotorType.kBrushless, 40); // Number on the SparkMax is 0, CAN ID is 21 because it can't be 0
+        public static final SmartMotorController RIGHT_MOTOR = new MetroSparkMAX(8, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController BOTTOM_MOTOR = new MetroSparkMAX(19, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
 
-        public static final double GEAR_RATIO = 1.25;
-
-        public static final double Kv = 0.107 / 60; // Char tool gives Kv in terms of RPS so /60
-        public static final double Ks = 0.101;
-        public static final double Kp = 1.06e-5;
     }
 
     public static class Storage {
-        public static final SmartMotorController TOP_MOTOR = new MetroTalonSRX(21, 20);
-        public static final SmartMotorController BOTTOM_MOTOR = new MetroTalonSRX(7, 25);
+        public static final SmartMotorController MOTOR = new MetroSparkMAX(17, CANSparkMaxLowLevel.MotorType.kBrushless, 25);
     }
 
     public static class Climber {
-        public static final SmartMotorController LEFT_MOTOR = new MetroTalonSRX(1, 40);
-        public static final SmartMotorController RIGHT_MOTOR = new MetroTalonSRX(25, 40);
+        public static final SmartMotorController RIGHT_LARGE_HOOK = new MetroSparkMAX(15, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController RIGHT_SMALL_HOOK = new MetroSparkMAX(18, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+
+        public static final SmartMotorController LEFT_LARGE_HOOK = new MetroSparkMAX(14, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController LEFT_SMALL_HOOK = new MetroSparkMAX(13, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
     }
 
     public static class Intake {
-        public static final SmartMotorController LEFT_MOTOR = new MetroSparkMAX(50, CANSparkMaxLowLevel.MotorType.kBrushless, 30);
-        public static final SmartMotorController RIGHT_MOTOR = new MetroSparkMAX(51, CANSparkMaxLowLevel.MotorType.kBrushless, 30);
-    }
-
-    public static class Pivot {
-        public static final DigitalInput UPPER_LIMIT_SWITCH = new DigitalInput(6);
-        public static final DigitalInput LOWER_LIMIT_SWITCH = new DigitalInput(5);
-
-        public static final SmartMotorController MOTOR = new MetroSparkMAX(8, CANSparkMaxLowLevel.MotorType.kBrushless, 20);
+        public static final SmartMotorController MOTOR = new MetroSparkMAX(16, CANSparkMaxLowLevel.MotorType.kBrushless, 30);
     }
 
     public static class Vision {
-        public static final double TARGET_HEIGHT_FT = 7.5625; // height of target center
-        public static final double FRONT_CAMERA_ANGLE_DEG = 60.0;
-        public static final double FRONT_CAMERA_HEIGHT_FT = 31.0/12.0;
-
-        public static final double WIDTH = 320; // in pixels
-        public static final double HEIGHT = 180;
-
-        public static final double VERTICAL_FOV_DEG = 34.3; // lifecam
-        public static final double HORIZONTAL_FOV_DEG = 61.0;
-
-        public static final double HORIZONTAL_APP = HORIZONTAL_FOV_DEG / WIDTH; // horizontal angle per pixel
-        public static final double VERTICAL_APP = VERTICAL_FOV_DEG / HEIGHT; // horizontal angle per pixel
-
+        // todo: vision stuff here
     }
 }
