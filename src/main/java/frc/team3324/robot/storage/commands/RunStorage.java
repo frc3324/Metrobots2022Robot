@@ -5,6 +5,14 @@ import frc.team3324.robot.storage.Storage;
 
 
 public class RunStorage extends CommandBase {
+    double botXSpeed;
+    double topXSpeed;
+    double botYSpeed;
+    double topYSpeed;
+
+    double joystickX;
+    double joystickY;
+
     public RunStorage(Storage storage) {
         this.addRequirements(storage);
     }
@@ -13,10 +21,9 @@ public class RunStorage extends CommandBase {
 
     }
     public void execute() {
-
     }
     public void end() {
-
+        
     }
     public boolean isFinished() {
         return false;
