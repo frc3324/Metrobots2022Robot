@@ -43,7 +43,7 @@ public final class Consts {
     public static class Shooter {
         public static final SmartMotorController LEFT_MOTOR = new MetroSparkMAX(21, CANSparkMaxLowLevel.MotorType.kBrushless, 40); // Number on the SparkMax is 0, CAN ID is 21 because it can't be 0
         public static final SmartMotorController RIGHT_MOTOR = new MetroSparkMAX(8, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-        public static final SmartMotorController BOTTOM_MOTOR = new MetroSparkMAX(19, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController FEEDER_MOTOR = new MetroSparkMAX(19, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
 
     }
 
@@ -61,6 +61,8 @@ public final class Consts {
 
     public static class Intake {
         public static final SmartMotorController MOTOR = new MetroSparkMAX(16, CANSparkMaxLowLevel.MotorType.kBrushless, 30);
+        public static final int SOLENOID_FORWARD_CHANNEL = 6;
+        public static final int SOLENOID_REVERSE_CHANNEL = 7;
     }
 
     public static class Vision {
