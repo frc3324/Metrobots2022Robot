@@ -52,11 +52,11 @@ public final class Consts {
     }
 
     public static class Climber {
-        public static final SmartMotorController RIGHT_LARGE_HOOK = new MetroSparkMAX(15, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-        public static final SmartMotorController RIGHT_SMALL_HOOK = new MetroSparkMAX(18, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController RIGHT_LONG_HOOK = new MetroSparkMAX(15, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController RIGHT_SHORT_HOOK = new MetroSparkMAX(18, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
 
-        public static final SmartMotorController LEFT_LARGE_HOOK = new MetroSparkMAX(14, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-        public static final SmartMotorController LEFT_SMALL_HOOK = new MetroSparkMAX(13, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController LEFT_LONG_HOOK = new MetroSparkMAX(14, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+        public static final SmartMotorController LEFT_SHORT_HOOK = new MetroSparkMAX(13, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
     }
 
     public static class Intake {

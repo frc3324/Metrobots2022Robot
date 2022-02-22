@@ -5,43 +5,29 @@
 package frc.team3324.robot.climber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.team3324.library.motorcontrollers.MetroSparkMAX;
+import frc.team3324.library.commands.MotorCommand;
+import frc.team3324.library.motorcontrollers.SmartMotorController;
+import frc.team3324.library.subsystems.MotorSubsystem;
 import frc.team3324.robot.util.Consts;
-import com.revrobotics.CANSparkMaxLowLevel;
 
-import io.github.oblarg.oblog.annotations.Log;
+
 
 public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
 
-  private final MetroSparkMAX leftForwardMotor = new MetroSparkMAX(15, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-  private final MetroSparkMAX leftBackMotor = new MetroSparkMAX(14, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+  public MotorSubsystem longHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_LONG_HOOK, Consts.Climber.RIGHT_LONG_HOOK}, 0.0);
+  public MotorSubsystem shortHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_SHORT_HOOK, Consts.Climber.RIGHT_SHORT_HOOK}, 0.0);
+  
+  
 
-  private final MetroSparkMAX rightForwardMotor = new MetroSparkMAX(13, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-  private final MetroSparkMAX rightBackMotor = new MetroSparkMAX(12, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+  public void stop(){
+    int stop = 0;
 
-  public void extendMotors(double speed) {
-    double armsRatio = 0.5;
-    leftBackMotor.set(speed * 1);
-    rightBackMotor.set(speed * 1);
-
-    leftForwardMotor.set(speed * armsRatio);
-    rightForwardMotor.set(speed * armsRatio);
+    longHook.setSpeed(stop);
+    shortHook.setSpeed(stop);
   }
-
-  public void retractMotors(double speed) {
-    double armsRatio = 0.5;
-    speed = -speed;
-    leftBackMotor.set(speed * 1);
-    rightBackMotor.set(speed * 1);
-
-    leftForwardMotor.set(speed * armsRatio);
-    rightForwardMotor.set(speed * armsRatio);
-  }
-
-
-  public Climber() {
-  }
+  
+  public Climber() {}
 
   @Override
   public void periodic() {
