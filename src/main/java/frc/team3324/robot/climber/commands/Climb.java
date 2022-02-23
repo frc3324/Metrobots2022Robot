@@ -8,13 +8,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.climber.Climber;
 
-public class RunClimb extends CommandBase {
+public class Climb extends CommandBase {
   /** Creates a new RunClimb. */
   private Climber climber;
   private XboxController controller;
 
-  public RunClimb(XboxController controller) {
+  public Climb(Climber climber, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climber);
+    this.climber = climber;
     this.controller = controller;
   }
 
@@ -26,16 +28,15 @@ public class RunClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean weAreClimbing = false;
-    if(weAreClimbing) {
-      // moves primary hooks with left and right triggers
-      double longHookSpeed = controller.getRightTriggerAxis() - controller.getLeftTriggerAxis();
-      climber.longHook.setSpeed(longHookSpeed);
-
-      // moves secondary hooks with right stick
-      double shortHookSpeed = controller.getRightY();
-      climber.shortHook.setSpeed(shortHookSpeed);
-    }
+    
+    // moves primary hooks with left and right triggers
+    double longHookSpeed = controller.getRightTriggerAxis() - controller.getLeftTriggerAxis();
+    climber.longHook.setSpeed(longHookSpeed);
+    
+    // moves secondary hooks with right stick
+    double shortHookSpeed = controller.getRightY();
+    climber.shortHook.setSpeed(shortHookSpeed);
+    
   }
 
   // Called once the command ends or is interrupted.
