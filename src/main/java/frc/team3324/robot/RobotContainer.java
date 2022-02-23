@@ -23,7 +23,11 @@ class RobotContainer {
     public DriveTrain driveTrain = new DriveTrain();
     public Intake intake = new Intake();
     public MotorSubsystem shooter = new Shooter();
-    public Climber climber = new Climber();
+    //public Climber climber = new Climber();
+
+    public MotorSubsystem longHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_LONG_HOOK, Consts.Climber.RIGHT_LONG_HOOK}, 0.0);
+    public MotorSubsystem shortHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_SHORT_HOOK, Consts.Climber.RIGHT_SHORT_HOOK}, 0.0);  
+
     public MotorSubsystem feeder = new MotorSubsystem(new SmartMotorController[]{Consts.Shooter.FEEDER_MOTOR}, 0.0);
     public MotorSubsystem storage = new MotorSubsystem(new SmartMotorController[]{Consts.Storage.MOTOR}, 0.0);
 
@@ -61,13 +65,15 @@ class RobotContainer {
         
         
         // Climber commands / very sus
-        climber.setDefaultCommand(new Climb(climber, primaryController, 0.8, 0.8));
+        // climber.setDefaultCommand(new Climb(climber, primaryController, 0.8, 0.8));
         
         
-        new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(climber.longHook, 0.8, true));
-        new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(climber.longHook, -0.8, true));
+        new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(longHook, 0.8, true));
+        new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(longHook, -0.8, true));
 
-
+        new JoystickButton(primaryController, Button.kX.value).whileHeld(new MotorCommand(shortHook, 0.8, true));
+        new JoystickButton(primaryController, Button.kB.value).whileHeld(new MotorCommand(shortHook, -0.8, true));
+    
 
         // Vision Line Up Controls
         /*new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(
