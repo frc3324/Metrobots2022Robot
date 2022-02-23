@@ -23,7 +23,7 @@ public class Climber extends SubsystemBase {
   public void stop(){
     int stop = 0;
 
-    longHook.setSpeed(stop);
+    longHook.setSpeed(stop); 
     shortHook.setSpeed(stop);
   }
   

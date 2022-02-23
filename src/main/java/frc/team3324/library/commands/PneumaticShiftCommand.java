@@ -5,23 +5,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class PneumaticShiftCommand extends InstantCommand {
     DoubleSolenoid solenoid;
+    DoubleSolenoid.Value value;
 
-    public PneumaticShiftCommand(DoubleSolenoid solenoid) {
+    public PneumaticShiftCommand(DoubleSolenoid solenoid, DoubleSolenoid.Value value) {
         this.solenoid = solenoid;
+        this.value = value;
     }
 
     @Override 
     public void execute() {
-        switch (solenoid.get()) {
-            case kForward:
-                solenoid.set(DoubleSolenoid.Value.kReverse);
-                break;
-            case kReverse:
-                solenoid.set(DoubleSolenoid.Value.kForward);
-                break;
-            case kOff:
-                // solenoid is off, do nothing
-                break;
-        }
+        solenoid.set(value);
     }
 }
