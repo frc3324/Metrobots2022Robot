@@ -12,12 +12,18 @@ public class Climb extends CommandBase {
   /** Creates a new RunClimb. */
   private Climber climber;
   private XboxController controller;
+  private double longHookSpeed;
+  private double shortHookSpeed;
+
 
   public Climb(Climber climber, XboxController controller, double longHookSpeed, double shortHookSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
     this.climber = climber;
     this.controller = controller;
+
+    this.longHookSpeed = longHookSpeed;
+    this.shortHookSpeed = shortHookSpeed;
   }
 
   // Called when the command is initially scheduled.
@@ -28,14 +34,22 @@ public class Climb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // *HookAction makes the motors change directions 
+
+
+    // moves primary hooks 
+    int rightBumper = controller.getRightBumper() ? 1 : 0;
+    int leftBumper = controller.getLeftBumper() ? 1 : 0;
+    int longHookAction = rightBumper - leftBumper;
     
-    // moves primary hooks with left and right triggers
-    double longHookSpeed = controller.getRightTriggerAxis() - controller.getLeftTriggerAxis();
-    climber.longHook.setSpeed(longHookSpeed);
+    climber.longHook.setSpeed(longHookAction * longHookSpeed);
     
-    // moves secondary hooks with right stick
-    double shortHookSpeed = controller.getRightY();
-    climber.shortHook.setSpeed(shortHookSpeed);
+    // moves secondary hooks
+    int bKey = controller.getBButton() ? 1 : 0;
+    int xKey = controller.getXButton() ? 1 : 0;
+    int shortHookAction = bKey - xKey;
+
+    climber.shortHook.setSpeed(shortHookAction * shortHookSpeed);
     
   }
 

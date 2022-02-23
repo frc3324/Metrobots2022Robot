@@ -9,7 +9,7 @@ import frc.team3324.library.commands.MotorCommandContinuous;
 import frc.team3324.library.motorcontrollers.SmartMotorController;
 import frc.team3324.library.subsystems.MotorSubsystem;
 import frc.team3324.robot.climber.Climber;
-import frc.team3324.robot.climber.commands.RunClimb;
+import frc.team3324.robot.climber.commands.Climb;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.intake.Intake;
@@ -61,15 +61,12 @@ class RobotContainer {
         
         
         // Climber commands / very sus
-        /*
-        if(primaryTriggerLeft != 0 || primaryTriggerRight != 0) {
-            climber.longHook.setSpeed(primaryTriggerRight - primaryTriggerLeft);
-        } */
-        //new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new RunClimb())
-
-        //new RunClimb(primaryController);
+        climber.setDefaultCommand(new Climb(climber, primaryController, 0.8, 0.8));
+        
+        
         new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(climber.longHook, 0.8, true));
         new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(climber.longHook, -0.8, true));
+
 
 
         // Vision Line Up Controls
