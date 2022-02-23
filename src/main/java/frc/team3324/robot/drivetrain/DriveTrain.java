@@ -201,7 +201,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void curvatureDrive(double xSpeed, double ySpeed) {
-        curvatureDrive(xSpeed, -1.0 * ySpeed, true);
+        curvatureDrive(xSpeed, ySpeed, true);
     }
 
 

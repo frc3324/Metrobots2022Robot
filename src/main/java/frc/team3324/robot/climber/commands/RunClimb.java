@@ -26,9 +26,10 @@ public class RunClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean weAreClimbing = false;
+    boolean weAreClimbing = true;
     if(weAreClimbing) {
       // moves primary hooks with left and right triggers
+      System.out.print("working");
       double longHookSpeed = controller.getRightTriggerAxis() - controller.getLeftTriggerAxis();
       climber.longHook.setSpeed(longHookSpeed);
 
