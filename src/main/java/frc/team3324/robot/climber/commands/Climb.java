@@ -13,7 +13,7 @@ public class Climb extends CommandBase {
   private Climber climber;
   private XboxController controller;
 
-  public Climb(Climber climber, XboxController controller) {
+  public Climb(Climber climber, XboxController controller, double longHookSpeed, double shortHookSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
     this.climber = climber;
