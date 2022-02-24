@@ -1,7 +1,11 @@
 package frc.team3324.library.motorcontrollers;
 
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 
 public class MetroSparkMAX extends CANSparkMax implements SmartMotorController {
 
@@ -31,9 +35,11 @@ public class MetroSparkMAX extends CANSparkMax implements SmartMotorController {
     public void setNeutralMode(SmartMotorController.MetroNeutralMode mode) {
         switch (mode) {
             case BRAKE:
-                this.setIdleMode(IdleMode.kBrake);
+                super.setIdleMode(IdleMode.kBrake);
+                break;
             case COAST:
-                this.setIdleMode(IdleMode.kCoast);
+                super.setIdleMode(IdleMode.kCoast);
+                break;
         }
     }
 

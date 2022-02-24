@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team3324.library.commands.MotorCommand;
 import frc.team3324.library.commands.MotorCommandContinuous;
 import frc.team3324.library.motorcontrollers.SmartMotorController;
+import frc.team3324.library.motorcontrollers.SmartMotorController.MetroNeutralMode;
 import frc.team3324.library.subsystems.MotorSubsystem;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.climber.commands.Climb;
@@ -24,6 +25,7 @@ class RobotContainer {
     public Intake intake = new Intake();
     public MotorSubsystem shooter = new Shooter();
     //public Climber climber = new Climber();
+    
 
     public MotorSubsystem longHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_LONG_HOOK, Consts.Climber.RIGHT_LONG_HOOK}, 0.0);
     public MotorSubsystem shortHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_SHORT_HOOK, Consts.Climber.RIGHT_SHORT_HOOK}, 0.0);  
@@ -51,7 +53,7 @@ class RobotContainer {
     
     public RobotContainer() {
         Logger.configureLoggingAndConfig(this, true);
-
+    
         configureButtonBindings();
    }
 
@@ -65,8 +67,6 @@ class RobotContainer {
         
         
         // Climber commands / very sus
-        // climber.setDefaultCommand(new Climb(climber, primaryController, 0.8, 0.8));
-        
         
         new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(longHook, 0.8, true));
         new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(longHook, -0.8, true));
@@ -109,7 +109,8 @@ class RobotContainer {
     }
 
     private void rumbleController(double rumbleLevel) {
-        secondaryController.setRumble(GenericHID.RumbleType.kRightRumble, rumbleLevel);
+        secondaryController.setRumble(GenericHID.
+        RumbleType.kRightRumble, rumbleLevel);
     }
 
     public void printControllerInputs() {
