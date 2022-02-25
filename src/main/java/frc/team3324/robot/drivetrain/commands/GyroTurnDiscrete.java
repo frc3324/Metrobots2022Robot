@@ -31,13 +31,21 @@ public class GyroTurnDiscrete extends CommandBase {
     this.kP = kP;
     this.kI = kI;
     this.kD = kD;
+
   }
 
   @Override
   public void initialize() {
     this.goal = gyro.getAngle() + angle;
 
-    controller = new PIDController(kP, kI, kD); // :eyes:
+    SmartDashboard.putNumber("Start", gyro.getAngle());
+    SmartDashboard.putNumber("End", goal);
+
+    controller = new PIDController(
+      SmartDashboard.getNumber("Drivetrain P", 0.0),
+      SmartDashboard.getNumber("Drivetrain I", 0.0),
+      SmartDashboard.getNumber("Drivetrain D", 0.0)
+    );
     controller.setTolerance(1.0);
   }
 
@@ -45,7 +53,9 @@ public class GyroTurnDiscrete extends CommandBase {
   public void execute() {
     double speed = controller.calculate(gyro.getAngle(), goal);
 
-    driveTrain.curvatureDrive(speed, 0.0);
+    SmartDashboard.putNumber("Drivetrain PID Speed", speed);
+
+    driveTrain.curvatureDrive(-1.0 * speed, 0.0);
   }
 
   @Override

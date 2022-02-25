@@ -36,8 +36,8 @@ public final class Consts {
         public static final double DISTANCE_BETWEEN_WHEELS = 0.61;
 
         // PID Constants
-        public static final double GyroTurn_P = 0.0061253324;
-        public static final double GyroTurn_I = 0.00001;
+        public static final double GyroTurn_P = 0.00565;
+        public static final double GyroTurn_I = 0.00000;
         public static final double GyroTurn_D = 0.0;
     }
 
@@ -45,7 +45,6 @@ public final class Consts {
         public static final SmartMotorController LEFT_MOTOR = new MetroSparkMAX(21, CANSparkMaxLowLevel.MotorType.kBrushless, 40); // Number on the SparkMax is 0, CAN ID is 21 because it can't be 0
         public static final SmartMotorController RIGHT_MOTOR = new MetroSparkMAX(8, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
         public static final SmartMotorController FEEDER_MOTOR = new MetroSparkMAX(19, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
-
     }
 
     public static class Storage {

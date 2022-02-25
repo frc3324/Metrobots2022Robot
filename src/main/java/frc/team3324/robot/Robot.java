@@ -35,8 +35,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        enabledInit();
+        SmartDashboard.putNumber("Drivetrain P", 0.0);
+        SmartDashboard.putNumber("Drivetrain I", 0.0);
+        SmartDashboard.putNumber("Drivetrain D", 0.0);
 
+        enabledInit();
     }
 
     @Override
@@ -50,5 +53,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("NAVX Yaw", robotContainer.driveTrain.getGyro().getYaw());
         SmartDashboard.putNumber("NAVX Angle", robotContainer.driveTrain.getGyro().getAngle());
         SmartDashboard.putBoolean("Compressor On", compressor.enabled());
+        robotContainer.driveTrain.dashboardGyroValue();
     }
 }

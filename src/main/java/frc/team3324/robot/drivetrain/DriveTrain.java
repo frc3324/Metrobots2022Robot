@@ -136,12 +136,12 @@ public class DriveTrain extends SubsystemBase {
 
     @Log
     public double getYaw() {
-        return -1.0 * gyro.getYaw();
+        return gyro.getYaw();
     }
 
     @Log
     public double getFusedYaw() {
-        return -1.0 * gyro.getFusedHeading();
+        return gyro.getFusedHeading();
     }
 
     public Pose2d getPose() {
@@ -218,4 +218,11 @@ public class DriveTrain extends SubsystemBase {
         lmMotor.setVoltage(leftVolts);
         rmMotor.setVoltage(-rightVolts);
     }
+
+    public void dashboardGyroValue() {
+        SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+        SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
+        SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+    }
+
 }

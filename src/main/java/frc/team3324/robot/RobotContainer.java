@@ -13,6 +13,7 @@ import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.climber.commands.Climb;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
+import frc.team3324.robot.drivetrain.commands.GyroTurnDiscrete;
 import frc.team3324.robot.intake.Intake;
 import frc.team3324.robot.intake.commands.SetIntakePosition;
 import frc.team3324.robot.shooter.Shooter;
@@ -65,25 +66,24 @@ class RobotContainer {
         // Start accepting input from controller for drivetrain
         driveTrain.setDefaultCommand(new Drive(driveTrain, primaryController::getRightX, primaryController::getLeftY));
         
-        
-        // Climber commands / very sus
-        
+        // Long Hook Controls
         new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(longHook, 0.8, true));
         new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(longHook, -0.8, true));
 
+        // Short Hook Controls
         new JoystickButton(primaryController, Button.kX.value).whileHeld(new MotorCommand(shortHook, 0.8, true));
         new JoystickButton(primaryController, Button.kB.value).whileHeld(new MotorCommand(shortHook, -0.8, true));
     
 
         // Vision Line Up Controls
-        /*new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(
+        new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(
             driveTrain, 
             driveTrain.getGyro(),
             Consts.DriveTrain.GyroTurn_P,
             Consts.DriveTrain.GyroTurn_I,
             Consts.DriveTrain.GyroTurn_D,
             90.0)
-            );*/
+        );
 
         /*
          * SECONDARY CONTROLS
