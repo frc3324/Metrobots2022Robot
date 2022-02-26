@@ -39,6 +39,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Drivetrain I", 0.0);
         SmartDashboard.putNumber("Drivetrain D", 0.0);
 
+        SmartDashboard.putNumber("AlignToHub kP", 0.002);
+        SmartDashboard.putNumber("AlignToHub kI", 0.0);
+        SmartDashboard.putNumber("AlignToHub kD", 0.0);
+
         enabledInit();
     }
 

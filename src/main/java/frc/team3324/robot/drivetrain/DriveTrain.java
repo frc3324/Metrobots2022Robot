@@ -67,6 +67,10 @@ public class DriveTrain extends SubsystemBase {
         rightEncoder.setPosition(0.0);
         leftEncoder.setPosition(0.0);
 
+        // Set encoder converstion ratio
+        rightEncoder.setPositionConversionFactor((Consts.DriveTrain.GEARBOX_STAGE1_RATIO) * (Consts.DriveTrain.GEARBOX_STAGE2_RATIO));
+        leftEncoder.setPositionConversionFactor((Consts.DriveTrain.GEARBOX_STAGE1_RATIO) * (Consts.DriveTrain.GEARBOX_STAGE2_RATIO));
+
         lmMotor.setOpenLoopRampRate(0.25);
         rmMotor.setOpenLoopRampRate(0.25);
 
@@ -84,6 +88,7 @@ public class DriveTrain extends SubsystemBase {
         ldMotor.follow(lmMotor);
 
         setBrakeMode();
+
 
         ruMotor.burnFlash();
         rmMotor.burnFlash();
@@ -105,28 +110,28 @@ public class DriveTrain extends SubsystemBase {
     }
 
     @Log
-    public double getLeftEncoderSpeed() {
-        return leftEncoder.getVelocity() * (1 / 60.0) * activeConversionRatio;
+    public double getLeftEncoderVelocity() {
+        return leftEncoder.getVelocity();
     }
 
     @Log
     public double getLeftEncoderPosition() {
-        return leftEncoder.getPosition() * activeConversionRatio;
+        return leftEncoder.getPosition();
     }
 
     @Log
-    public double getRightEncoderSpeed() {
-        return rightEncoder.getVelocity() * (1 / 60.0) * activeConversionRatio;
+    public double getRightEncoderVelocity() {
+        return rightEncoder.getVelocity();
     }
 
     @Log
     public double getRightEncoderPosition() {
-        return rightEncoder.getPosition() * activeConversionRatio;
+        return rightEncoder.getPosition();
     }
 
     @Log
     public double getVelocity() {
-        return (getRightEncoderSpeed() - getLeftEncoderSpeed()) / 2.0;
+        return (getRightEncoderVelocity() - getLeftEncoderVelocity()) / 2.0;
     }
 
     @Log
@@ -149,11 +154,11 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        return new DifferentialDriveWheelSpeeds(getLeftEncoderSpeed(), getRightEncoderSpeed());
+        return new DifferentialDriveWheelSpeeds(getLeftEncoderVelocity(), getRightEncoderVelocity());
     }
 
     public DifferentialDriveWheelSpeeds getAutoWheelSpeeds() {
-        return new DifferentialDriveWheelSpeeds(getLeftEncoderSpeed(), -1.0 * getRightEncoderSpeed());
+        return new DifferentialDriveWheelSpeeds(getLeftEncoderVelocity(), -1.0 * getRightEncoderVelocity());
     }
 
     public boolean getSafety() {

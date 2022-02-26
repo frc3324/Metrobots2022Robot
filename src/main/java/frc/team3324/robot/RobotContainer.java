@@ -12,6 +12,7 @@ import frc.team3324.library.subsystems.MotorSubsystem;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.climber.commands.Climb;
 import frc.team3324.robot.drivetrain.DriveTrain;
+import frc.team3324.robot.drivetrain.commands.AlignToHub;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.drivetrain.commands.GyroTurnDiscrete;
 import frc.team3324.robot.intake.Intake;
@@ -76,14 +77,15 @@ class RobotContainer {
     
 
         // Vision Line Up Controls
-        new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(
+        new JoystickButton(primaryController, Button.kY.value).whileHeld(new AlignToHub(driveTrain, 0.0, 0.0, 0.0));
+        /*new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(
             driveTrain, 
             driveTrain.getGyro(),
             Consts.DriveTrain.GyroTurn_P,
             Consts.DriveTrain.GyroTurn_I,
             Consts.DriveTrain.GyroTurn_D,
             90.0)
-        );
+        );*/
 
         /*
          * SECONDARY CONTROLS

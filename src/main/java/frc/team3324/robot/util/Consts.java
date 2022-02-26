@@ -26,13 +26,15 @@ public final class Consts {
 
         // gears: Stage 1 {12:50}; Stage 2 {20:54}
         // public static final double GEAR_RATIO = 
+        public static final double GEARBOX_STAGE1_RATIO = 12.0 / 50.0;
+        public static final double GEARBOX_STAGE2_RATIO = 20.0 / 54.0;
 
         public static final double WHEEL_DIAMETER_METERS = 6.125 / 39.36;
-        public static final double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_METERS;
+        public static final double CIRCUMFERENCE_METERS = Math.PI * WHEEL_DIAMETER_METERS;
         public static final double PULSES = 1870; // 256 (pulses) * 4(quad, 4 ticks/pulse) * 3 * 25 (gear ratios)
         public static final double TICKS = PULSES * 4;
-        public static final double DISTANCE_PER_PULSE_HIGH = CIRCUMFERENCE * HIGH_GEAR_RATIO;
-        public static final double DISTANCE_PER_PULSE_LOW = CIRCUMFERENCE * LOW_GEAR_RATIO;
+        public static final double DISTANCE_PER_PULSE_HIGH = CIRCUMFERENCE_METERS * HIGH_GEAR_RATIO;
+        public static final double DISTANCE_PER_PULSE_LOW = CIRCUMFERENCE_METERS * LOW_GEAR_RATIO;
         public static final double DISTANCE_BETWEEN_WHEELS = 0.61;
 
         // PID Constants
