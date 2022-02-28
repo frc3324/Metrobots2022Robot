@@ -68,8 +68,9 @@ class RobotContainer {
         driveTrain.setDefaultCommand(new Drive(driveTrain, primaryController::getRightX, primaryController::getLeftY));
         
         // Long Hook Controls
+        double longHookSpeed = 0.8;
         new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(longHook, 0.8, true));
-        new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(longHook, -0.8, true));
+        new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(longHook, -longHookSpeed, 0, true, Consts.Climber.LEFT_LONG_HOOK_SWITCH::get).deadlineWith(new MotorCommand(longHook, -longHookSpeed, 1, true, Consts.Climber.RIGHT_LONG_HOOK_SWITCH::get)));
 
         // Short Hook Controls
         new JoystickButton(primaryController, Button.kX.value).whileHeld(new MotorCommand(shortHook, 0.8, true));

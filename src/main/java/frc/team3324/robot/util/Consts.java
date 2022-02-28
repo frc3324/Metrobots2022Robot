@@ -59,6 +59,10 @@ public final class Consts {
 
         public static final SmartMotorController LEFT_LONG_HOOK = new MetroSparkMAX(14, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
         public static final SmartMotorController LEFT_SHORT_HOOK = new MetroSparkMAX(13, CANSparkMaxLowLevel.MotorType.kBrushless, 40);
+    
+        public static final DigitalInput LEFT_LONG_HOOK_SWITCH = new DigitalInput(1);
+        public static final DigitalInput RIGHT_LONG_HOOK_SWITCH = new DigitalInput(8);
+
     }
 
     public static class Intake {
