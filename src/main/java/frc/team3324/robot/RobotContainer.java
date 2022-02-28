@@ -18,6 +18,7 @@ import frc.team3324.robot.drivetrain.commands.GyroTurnDiscrete;
 import frc.team3324.robot.intake.Intake;
 import frc.team3324.robot.intake.commands.SetIntakePosition;
 import frc.team3324.robot.shooter.Shooter;
+import frc.team3324.robot.shooter.commands.Shoot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.util.Consts;
 import io.github.oblarg.oblog.Logger;
@@ -92,8 +93,8 @@ class RobotContainer {
          */
 
         // Intake Controls
-        new JoystickButton(secondaryController, Button.kB.value).whileHeld(new MotorCommand(intake, 0.8, true).alongWith(new MotorCommand(storage, -0.8, true).alongWith(new MotorCommand(feeder, -1.0, true)))); // intake
-        new JoystickButton(secondaryController, Button.kY.value).whileHeld(new MotorCommand(intake, -0.8, true)); // outtake
+        new JoystickButton(secondaryController, Button.kB.value).whileHeld(new MotorCommand(intake, -1, true).alongWith(new MotorCommand(storage, -0.8, true).alongWith(new MotorCommand(feeder, -1.0, true)))); // intake
+        new JoystickButton(secondaryController, Button.kY.value).whileHeld(new MotorCommand(intake, 1.0, true)); // outtake
         
         new JoystickButton(secondaryController, Button.kStart.value).whenPressed(new SetIntakePosition(intake, DoubleSolenoid.Value.kForward));
         new JoystickButton(secondaryController, Button.kBack.value).whenPressed(new SetIntakePosition(intake, DoubleSolenoid.Value.kReverse));
@@ -103,7 +104,7 @@ class RobotContainer {
         new JoystickButton(secondaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(storage, -0.8, true).alongWith(new MotorCommand(feeder, -1.0, true))); // goes up
 
         // Shooter Controls
-        new JoystickButton(secondaryController, Button.kX.value).toggleWhenPressed(new MotorCommandContinuous(shooter, () -> {return SmartDashboard.getNumber("Shooter Speed", 0.0);}, true));
+        new JoystickButton(secondaryController, Button.kX.value).toggleWhenPressed(new Shoot(shooter, secondaryController, () -> {return SmartDashboard.getNumber("Shooter Speed", 0.0);}));
 
         // Feeder Controls
         new JoystickButton(secondaryController, Button.kA.value).whileHeld(new MotorCommand(feeder, 1.0, true).alongWith(new MotorCommand(storage, -1.0, true)));
