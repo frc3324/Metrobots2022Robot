@@ -9,8 +9,8 @@ import frc.team3324.library.commands.MotorCommandContinuous;
 import frc.team3324.library.motorcontrollers.SmartMotorController;
 import frc.team3324.library.motorcontrollers.SmartMotorController.MetroNeutralMode;
 import frc.team3324.library.subsystems.MotorSubsystem;
-import frc.team3324.robot.climber.Climber;
-import frc.team3324.robot.climber.commands.Climb;
+import frc.team3324.robot.climber.LongHooks;
+import frc.team3324.robot.climber.commands.ClimbLongHooks;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.AlignToHub;
 import frc.team3324.robot.drivetrain.commands.Drive;
@@ -27,10 +27,8 @@ class RobotContainer {
     public DriveTrain driveTrain = new DriveTrain();
     public Intake intake = new Intake();
     public MotorSubsystem shooter = new Shooter();
-    //public Climber climber = new Climber();
     
-
-    public MotorSubsystem longHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_LONG_HOOK, Consts.Climber.RIGHT_LONG_HOOK}, 0.0);
+    public LongHooks longHooks = new LongHooks();
     public MotorSubsystem shortHook = new MotorSubsystem(new SmartMotorController[] {Consts.Climber.LEFT_SHORT_HOOK, Consts.Climber.RIGHT_SHORT_HOOK}, 0.0);  
 
     public MotorSubsystem feeder = new MotorSubsystem(new SmartMotorController[]{Consts.Shooter.FEEDER_MOTOR}, 0.0);
@@ -69,13 +67,14 @@ class RobotContainer {
         driveTrain.setDefaultCommand(new Drive(driveTrain, primaryController::getRightX, primaryController::getLeftY));
         
         // Long Hook Controls
-        double longHookSpeed = 0.8;
-        new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new MotorCommand(longHook, 0.8, true));
-        new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new MotorCommand(longHook, -longHookSpeed, 0, true, Consts.Climber.LEFT_LONG_HOOK_SWITCH::get).deadlineWith(new MotorCommand(longHook, -longHookSpeed, 1, true, Consts.Climber.RIGHT_LONG_HOOK_SWITCH::get)));
+        new JoystickButton(primaryController, Button.kRightBumper.value).whileHeld(new ClimbLongHooks(longHooks, 0.8, true));
+        new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new ClimbLongHooks(longHooks, -0.8, false));
 
         // Short Hook Controls
-        new JoystickButton(primaryController, Button.kX.value).whileHeld(new MotorCommand(shortHook, 0.8, true));
-        new JoystickButton(primaryController, Button.kB.value).whileHeld(new MotorCommand(shortHook, -0.8, true));
+        new JoystickButton(primaryController, Button.kY.value).whileHeld(new MotorCommand(shortHook, 0.8, 0, true));
+        new JoystickButton(primaryController, Button.kX.value).whileHeld(new MotorCommand(shortHook, -0.8, 0, true));
+        new JoystickButton(primaryController, Button.kB.value).whileHeld(new MotorCommand(shortHook, 0.8, 1, true));
+        new JoystickButton(primaryController, Button.kA.value).whileHeld(new MotorCommand(shortHook, -0.8, 1, true));
     
 
         // Vision Line Up Controls
