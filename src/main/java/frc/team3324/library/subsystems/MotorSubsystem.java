@@ -1,5 +1,6 @@
 package frc.team3324.library.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3324.library.motorcontrollers.SmartMotorController;
 
@@ -26,5 +27,19 @@ public class MotorSubsystem extends SubsystemBase {
 
     public SmartMotorController getMotor(int index) {
         return motorList[index];
+    }
+
+    public void getMotorCurrentDraw(int index) {
+        motorList[index].getCurrentDraw();
+    }
+
+    public void dashboardMotorCurrentDraw() {
+        for (int i = 0; i < motorList.length; i++) {
+            SmartDashboard.putNumber(this.getName() + " Motor " + i, motorList[i].getCurrentDraw());
+        }
+    }
+
+    public void dashboardMotorCurrentDraw(int index) {
+        motorList[index].getCurrentDraw();
     }
 }

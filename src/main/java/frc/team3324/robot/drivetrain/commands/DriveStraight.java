@@ -9,6 +9,7 @@ import frc.team3324.robot.util.Consts;
 public class DriveStraight extends CommandBase {
 
     DriveTrain driveTrain;
+    double goal;
 
     double anglekP;
     double anglekI;
@@ -21,10 +22,11 @@ public class DriveStraight extends CommandBase {
     PIDController angleController;
     PIDController distanceController;
 
-    public DriveStraight(DriveTrain driveTrain) {
+    public DriveStraight(DriveTrain driveTrain, double distance) {
         addRequirements(driveTrain);
 
         this.driveTrain = driveTrain;
+        this.goal = driveTrain.getDistance() + distance;
 
         this.anglekP = SmartDashboard.getNumber("anglekP", 0.0);
         this.anglekI = SmartDashboard.getNumber("anglekI", 0.0);
@@ -44,21 +46,33 @@ public class DriveStraight extends CommandBase {
 
     @Override
     public void initialize() {
-        this.angleController = new PIDController(anglekP, anglekI, anglekD);
-        this.distanceController = new PIDController(distancekP, distancekI, distancekD);
+        this.angleController = new PIDController(
+            SmartDashboard.getNumber("anglekP", 0.0),
+            SmartDashboard.getNumber("anglekI", 0.0),
+            SmartDashboard.getNumber("anglekD", 0.0)
+        );
+
+        this.distanceController = new PIDController(
+            SmartDashboard.getNumber("distancekP", 0.0),
+            SmartDashboard.getNumber("distancekI", 0.0),
+            SmartDashboard.getNumber("distancekD", 0.0)
+        );
 
         driveTrain.resetGyro();
 
         this.angleController.setSetpoint(0.0);
-        this.distanceController.setSetpoint(distanceToRevolutions(-2.45)); // 2.45 meters
+        this.distanceController.setSetpoint(goal);
     }
 
     @Override
     public void execute() {
         double alignment = angleController.calculate(driveTrain.getYaw());
-        double speed = distanceController.calculate(driveTrain.getPosition());
+        double speed = distanceController.calculate(driveTrain.getDistance());
 
-        driveTrain.curvatureDrive(speed, alignment);
+        SmartDashboard.putNumber("Alignment Speed", alignment);
+        SmartDashboard.putNumber("Distance Speed", speed);
+
+        driveTrain.curvatureDrive(alignment, speed);
     }
 
     @Override

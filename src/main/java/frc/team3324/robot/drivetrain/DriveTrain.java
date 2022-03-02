@@ -139,6 +139,10 @@ public class DriveTrain extends SubsystemBase {
         return (getRightEncoderPosition() - getLeftEncoderPosition()) / 2.0;
     }
 
+    public double getDistance() {
+        return this.getPosition() * Consts.DriveTrain.CIRCUMFERENCE_METERS;
+    }
+
     @Log
     public double getYaw() {
         return gyro.getYaw();

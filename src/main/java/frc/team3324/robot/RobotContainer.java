@@ -3,6 +3,7 @@ package frc.team3324.robot;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team3324.library.commands.MotorCommand;
 import frc.team3324.library.commands.MotorCommandContinuous;
@@ -14,6 +15,7 @@ import frc.team3324.robot.climber.commands.ClimbLongHooks;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.AlignToHub;
 import frc.team3324.robot.drivetrain.commands.Drive;
+import frc.team3324.robot.drivetrain.commands.DriveStraight;
 import frc.team3324.robot.drivetrain.commands.GyroTurnDiscrete;
 import frc.team3324.robot.intake.Intake;
 import frc.team3324.robot.intake.commands.SetIntakePosition;
@@ -71,14 +73,14 @@ class RobotContainer {
         new JoystickButton(primaryController, Button.kLeftBumper.value).whileHeld(new ClimbLongHooks(longHooks, -0.8, false));
 
         // Short Hook Controls
-        new JoystickButton(primaryController, Button.kY.value).whileHeld(new MotorCommand(shortHook, 0.8, 0, true));
-        new JoystickButton(primaryController, Button.kX.value).whileHeld(new MotorCommand(shortHook, -0.8, 0, true));
-        new JoystickButton(primaryController, Button.kB.value).whileHeld(new MotorCommand(shortHook, 0.8, 1, true));
-        new JoystickButton(primaryController, Button.kA.value).whileHeld(new MotorCommand(shortHook, -0.8, 1, true));
+        new JoystickButton(primaryController, Button.kX.value).whileHeld(new MotorCommand(shortHook, 0.2, 0, true));
+        new JoystickButton(primaryController, Button.kY.value).whileHeld(new MotorCommand(shortHook, -0.2, 0, true));
+        new JoystickButton(primaryController, Button.kB.value).whileHeld(new MotorCommand(shortHook, 0.2, 1, true));
+        new JoystickButton(primaryController, Button.kA.value).whileHeld(new MotorCommand(shortHook, -0.2, 1, true));
     
 
         // Vision Line Up Controls
-        new JoystickButton(primaryController, Button.kY.value).whileHeld(new AlignToHub(driveTrain, 0.0, 0.0, 0.0));
+        //new JoystickButton(primaryController, Button.kY.value).whileHeld(new AlignToHub(driveTrain, 0.0, 0.0, 0.0));
         /*new JoystickButton(primaryController, Button.kY.value).whileHeld(new GyroTurnDiscrete(
             driveTrain, 
             driveTrain.getGyro(),
@@ -87,6 +89,8 @@ class RobotContainer {
             Consts.DriveTrain.GyroTurn_D,
             90.0)
         );*/
+
+        new JoystickButton(primaryController, Button.kStart.value).whileHeld(new DriveStraight(driveTrain, 2.45));
 
         /*
          * SECONDARY CONTROLS
@@ -114,6 +118,10 @@ class RobotContainer {
     private void rumbleController(double rumbleLevel) {
         secondaryController.setRumble(GenericHID.
         RumbleType.kRightRumble, rumbleLevel);
+    }
+
+    public Command getAutonomousCommand() {
+        return (new DriveStraight(driveTrain, -2.45));
     }
 
     public void printControllerInputs() {
