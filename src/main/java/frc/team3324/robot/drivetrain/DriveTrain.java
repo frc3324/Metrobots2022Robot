@@ -48,8 +48,6 @@ public class DriveTrain extends SubsystemBase {
 
     private DifferentialDriveOdometry diffDriveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * gyro.getYaw()));
 
-    double activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW;
-
     /*
      * CONSTRUCTOR
      */
@@ -68,8 +66,8 @@ public class DriveTrain extends SubsystemBase {
         leftEncoder.setPosition(0.0);
 
         // Set encoder converstion ratio
-        rightEncoder.setPositionConversionFactor((Consts.DriveTrain.GEARBOX_STAGE1_RATIO) * (Consts.DriveTrain.GEARBOX_STAGE2_RATIO));
-        leftEncoder.setPositionConversionFactor((Consts.DriveTrain.GEARBOX_STAGE1_RATIO) * (Consts.DriveTrain.GEARBOX_STAGE2_RATIO));
+        rightEncoder.setPositionConversionFactor(Consts.DriveTrain.CONVERSION_RATIO);
+        leftEncoder.setPositionConversionFactor(Consts.DriveTrain.CONVERSION_RATIO);
 
         lmMotor.setOpenLoopRampRate(0.25);
         rmMotor.setOpenLoopRampRate(0.25);
@@ -131,12 +129,13 @@ public class DriveTrain extends SubsystemBase {
 
     @Log
     public double getVelocity() {
-        return (getRightEncoderVelocity() - getLeftEncoderVelocity()) / 2.0;
+        return (getLeftEncoderVelocity() - getRightEncoderVelocity()) / 2.0;
     }
 
     @Log
     public double getPosition() {
-        return (getRightEncoderPosition() - getLeftEncoderPosition()) / 2.0;
+        // subtracted because one is negative, position is in terms of output shaft due to conversion ratio
+        return (getLeftEncoderPosition() - getRightEncoderPosition()) / 2.0;
     }
 
     public double getDistance() {
@@ -173,7 +172,6 @@ public class DriveTrain extends SubsystemBase {
         drive.setSafetyEnabled(bool);
     }
 
-
     private void setBrakeMode() {
         rmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         ruMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -196,11 +194,17 @@ public class DriveTrain extends SubsystemBase {
         leftEncoder.setPosition(0.0);
     }
 
+    public void setMaxOutput(double output) {
+        drive.setMaxOutput(output);
+    }
+
     @Override 
     public void periodic() {
         diffDriveOdometry.update(Rotation2d.fromDegrees(-gyro.getYaw()), getLeftEncoderPosition(), -1.0 * getRightEncoderPosition());
-        SmartDashboard.putString("Drivetrain Pose", getPose().toString());
-        SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+        // SmartDashboard.putString("Drivetrain Pose", getPose().toString());
+        // SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+
+        SmartDashboard.putNumber("DT Distance", this.getDistance());
 
         double currentVelocity = getVelocity();
     }
@@ -212,7 +216,6 @@ public class DriveTrain extends SubsystemBase {
     public void curvatureDrive(double xSpeed, double ySpeed) {
         curvatureDrive(xSpeed, ySpeed, true);
     }
-
 
     public void setCoastMode() {
         rmMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);

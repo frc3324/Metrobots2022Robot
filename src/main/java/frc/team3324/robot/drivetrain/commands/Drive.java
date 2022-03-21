@@ -34,7 +34,7 @@ public class Drive extends CommandBase {
         double xSpeed = xSpeedSupplier.getAsDouble();
         double ySpeed = ySpeedSupplier.getAsDouble();
 
-        driveTrain.curvatureDrive(xSpeed, ySpeed * 0.8);
+        driveTrain.curvatureDrive(xSpeed * 0.8, ySpeed);
     }
 
     @Override

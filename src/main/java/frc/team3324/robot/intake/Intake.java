@@ -20,16 +20,15 @@ public class Intake extends MotorSubsystem {
     super(new SmartMotorController[]{Consts.Intake.MOTOR}, 0.0);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
   public void togglePosition() {
     solenoid.toggle();
   }
 
   public void setPosition(DoubleSolenoid.Value value) {
     solenoid.set(value);
+  }
+
+  public DoubleSolenoid.Value getPosition() {
+    return solenoid.get();
   }
 }

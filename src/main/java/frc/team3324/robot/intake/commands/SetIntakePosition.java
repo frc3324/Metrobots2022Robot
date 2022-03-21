@@ -29,7 +29,6 @@ public class SetIntakePosition extends InstantCommand {
                 pcmChannel = -1;
                 break;
         }
-        SmartDashboard.putNumber("Intake Solenoid PCM Channel", pcmChannel);
 
         intake.setPosition(position);
     }

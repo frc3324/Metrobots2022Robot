@@ -22,6 +22,7 @@ public class LongHooks extends SubsystemBase {
     private DigitalInput rightLimitSwitch = Consts.Climber.RIGHT_LONG_HOOK_SWITCH;
 
     public LongHooks() {
+        this.leftHook.setInverted(true);
         leftHook.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE);
         rightHook.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE);
     }

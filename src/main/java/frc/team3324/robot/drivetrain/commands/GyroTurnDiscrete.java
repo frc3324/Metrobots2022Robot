@@ -7,8 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.drivetrain.DriveTrain;
 
-import io.github.oblarg.oblog.annotations.Log;
-
 public class GyroTurnDiscrete extends CommandBase {
   AHRS gyro;
   DriveTrain driveTrain;
@@ -17,21 +15,13 @@ public class GyroTurnDiscrete extends CommandBase {
   double angle; // relative angle to turn to, passed in
 
   PIDController controller;
-  double kP;
-  double kI;
-  double kD;
 
-  public GyroTurnDiscrete(DriveTrain driveTrain, AHRS gyro, double kP, double kI, double kD, double angle) {
+  public GyroTurnDiscrete(DriveTrain driveTrain, AHRS gyro, double angle) {
     addRequirements(driveTrain);
 
     this.gyro = gyro;
     this.driveTrain = driveTrain;
     this.angle = angle;
-
-    this.kP = kP;
-    this.kI = kI;
-    this.kD = kD;
-
   }
 
   @Override
@@ -42,9 +32,9 @@ public class GyroTurnDiscrete extends CommandBase {
     SmartDashboard.putNumber("End", goal);
 
     controller = new PIDController(
-      SmartDashboard.getNumber("Drivetrain P", 0.0),
-      SmartDashboard.getNumber("Drivetrain I", 0.0),
-      SmartDashboard.getNumber("Drivetrain D", 0.0)
+      SmartDashboard.getNumber("GyroTurn P", 0.0),
+      SmartDashboard.getNumber("GyroTurn I", 0.0),
+      SmartDashboard.getNumber("GyroTurn D", 0.0)
     );
     controller.setTolerance(1.0);
   }
